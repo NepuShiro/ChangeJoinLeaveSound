@@ -1,4 +1,4 @@
-# ResoniteSlotInspectorCounter
+# ChangeJoinLeaveSound
 
 A [ResoniteModLoader](https://github.com/resonite-modding-group/ResoniteModLoader) mod for [Resonite](https://resonite.com/) that will allow you to change the default UserJoin/Leave sounds, and color.
 
