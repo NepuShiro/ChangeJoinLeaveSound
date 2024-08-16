@@ -21,6 +21,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Krafs.Publicizer" Version="2.2.1">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
 		<Reference Include="HarmonyLib">
 			<HintPath Condition="Exists('$(GamePath)rml_libs\0Harmony.dll')">$(GamePath)rml_libs\0Harmony.dll</HintPath>
 			<HintPath Condition="Exists('$(GamePath)0Harmony.dll')">$(GamePath)0Harmony.dll</HintPath>
@@ -35,6 +42,15 @@
 		<Reference Include="ResoniteModLoader">
 			<HintPath>$(GamePath)ResoniteModLoader.dll</HintPath>
 			<HintPath>$(GamePath)Libraries\ResoniteModLoader.dll</HintPath>
+		</Reference>
+		<Reference Include="SkyFrost.Base.Models">
+			<HintPath>$(GamePath)Resonite_Data\Managed\SkyFrost.Base.Models.dll</HintPath>
+		</Reference>
+		<Reference Include="SkyFrost.Base">
+			<HintPath>$(GamePath)Resonite_Data\Managed\SkyFrost.Base.dll</HintPath>
+		</Reference>
+		<Reference Include="System.ValueTuple">
+			<HintPath>$(GamePath)Resonite_Data\Managed\System.ValueTuple.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 

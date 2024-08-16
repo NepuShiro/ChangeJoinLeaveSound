@@ -45,31 +45,6 @@ namespace ChangeJoinLeaveSound
 		[HarmonyPatch(typeof(NotificationPanel))]
 		private class NotificationPatch
 		{
-			static Uri _joinSound;
-			public static Uri JOIN_SOUND
-			{
-				get
-				{
-					if (_joinSound == null)
-					{
-						_joinSound = config.GetValue(NotificationSoundUri);
-					}
-					return _joinSound;
-				}
-			}
-
-			static Uri _leaveSound;
-			public static Uri LEAVE_SOUND
-			{
-				get
-				{
-					if (_leaveSound == null)
-					{
-						_leaveSound = config.GetValue(NotificationLeaveSoundUri);
-					}
-					return _leaveSound;
-				}
-			}
 			private static NotificationSettings GetSettings(NotificationPanel instance)
 			{
 				FieldInfo settingsField = typeof(NotificationPanel).GetField("_settings", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -82,13 +57,18 @@ namespace ChangeJoinLeaveSound
 			{
 				if (!config.GetValue(SoundsEnabled)) return true; 
 				
-				var _settings = GetSettings(__instance);
-				__instance.RunSynchronously(async delegate
+				try
 				{
-					Uri thumbnail = await GetUserThumbnail(userId);
-					StaticAudioClip joinSound = __instance.Slot.AttachAudioClip(JOIN_SOUND, true);
-					__instance.AddNotification(userId, __instance.GetLocalized("Notifications.UserJoined", "<b>{0}</b>"), sessionThumbnailUrl, config.GetValue(NotificationJoinColor), _settings?.UserJoinAndLeave.Value ?? NotificationType.None, username, thumbnail, joinSound);
-				});
+					var _settings = GetSettings(__instance);
+					
+					Uri thumbnail = GetUserThumbnail(userId).Result;
+					StaticAudioClip joinSound = __instance.Slot.AttachAudioClip(config.GetValue(NotificationSoundUri), true);
+					__instance.AddNotification(userId, __instance.GetLocalized("Notifications.UserJoined", $"<color={LegacyUIStyle.NameTint(userId, 0.5f).ToHexString()}>"+"<b>{0}</b></color>"), sessionThumbnailUrl, config.GetValue(NotificationJoinColor), _settings?.UserJoinAndLeave.Value ?? NotificationType.None, username, thumbnail, joinSound);
+				}
+				catch (Exception ex)
+				{
+					Error(ex);
+				}
 				return false;
 			}
 
@@ -98,13 +78,18 @@ namespace ChangeJoinLeaveSound
 			{
 				if (!config.GetValue(SoundsEnabled) || !config.GetValue(OverrideLeaveSound)) return true;
 
-				var _settings = GetSettings(__instance);
-				__instance.RunSynchronously(async delegate
+				try
 				{
-					Uri thumbnail = await GetUserThumbnail(userId);
-					StaticAudioClip leaveSound = __instance.Slot.AttachAudioClip(LEAVE_SOUND, true);
-					__instance.AddNotification(userId, __instance.GetLocalized("Notifications.UserLeft", "<b>{0}</b>"), sessionThumbnailUrl, config.GetValue(NotificationLeaveColor), _settings?.UserJoinAndLeave.Value ?? NotificationType.None, username, thumbnail, leaveSound);
-				});
+					var _settings = GetSettings(__instance);
+
+					Uri thumbnail = GetUserThumbnail(userId).Result;
+					StaticAudioClip leaveSound = __instance.Slot.AttachAudioClip(config.GetValue(NotificationLeaveSoundUri), true);
+					__instance.AddNotification(userId, __instance.GetLocalized("Notifications.UserLeft", $"<color={LegacyUIStyle.NameTint(userId, 0.5f).ToHexString()}>"+"<b>{0}</b></color>"), sessionThumbnailUrl, config.GetValue(NotificationLeaveColor), _settings?.UserJoinAndLeave.Value ?? NotificationType.None, username, thumbnail, leaveSound);
+				}
+				catch (Exception ex)
+				{
+					Error(ex);
+				}
 				return false;
 			}
 			
