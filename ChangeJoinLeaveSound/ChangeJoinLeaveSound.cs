@@ -37,7 +37,7 @@ namespace ChangeJoinLeaveSound
 			config = GetConfiguration();
 			config.Save(true);
 
-			Harmony harmony = new("com.NepuShiro.ChangeJoinLeaveSound");
+			Harmony harmony = new("net.NepuShiro.ChangeJoinLeaveSound");
 			harmony.PatchAll();
 		}
 
