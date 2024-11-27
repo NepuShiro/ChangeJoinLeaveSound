@@ -1,6 +1,6 @@
 # ChangeJoinLeaveSound
 
-A [ResoniteModLoader](https://github.com/resonite-modding-group/ResoniteModLoader) mod for [Resonite](https://resonite.com/) that will allow you to change the default UserJoin/Leave sounds, and color.
+A [ResoniteModLoader](https://github.com/resonite-modding-group/ResoniteModLoader) mod for [Resonite](https://resonite.com/) that will allow you to change the default User Join/Leave sounds, and color.
 
 ## Installation
 1. Install [ResoniteModLoader](https://github.com/resonite-modding-group/ResoniteModLoader).
