@@ -83,7 +83,7 @@ namespace ChangeJoinLeaveSound
 			{
 				Contact contact = Engine.Current.Cloud.Contacts.GetContact(userId);
 				
-				return string.IsNullOrEmpty(contact.Profile.IconUrl)
+				return string.IsNullOrEmpty(contact?.Profile?.IconUrl)
 					? null 
 					: new Uri(contact.Profile.IconUrl);
 			}
