@@ -11,7 +11,7 @@ namespace ChangeJoinLeaveSound
 	{
 		public override string Name => "ChangeJoinLeaveSound";
 		public override string Author => "NepuShiro";
-		public override string Version => "1.0.1";
+		public override string Version => "1.0.2";
 		public override string Link => "https://github.com/NepuShiro/ChangeJoinLeaveSound/";
 
 		[AutoRegisterConfigKey]
@@ -51,7 +51,7 @@ namespace ChangeJoinLeaveSound
 				try
 				{
 					Uri thumbnail = GetUserThumbnail(userId);
-					StaticAudioClip joinSound = __instance.Slot.AttachAudioClip(config.GetValue(NotificationSoundUri), true);
+					StaticAudioClip joinSound = __instance.Slot.AttachAudioClip(config.GetValue(NotificationSoundUri));
 					__instance.AddNotification(userId, __instance.GetLocalized("Notifications.UserJoined", $"<color={LegacyUIStyle.NameTint(userId, 0.5f).ToHexString()}>"+"<b>{0}</b></color>"), sessionThumbnailUrl, config.GetValue(NotificationJoinColor), ____settings?.UserJoinAndLeave.Value ?? NotificationType.None, username, thumbnail, joinSound);
 				}
 				catch (Exception ex)
@@ -69,7 +69,7 @@ namespace ChangeJoinLeaveSound
 				try
 				{
 					Uri thumbnail = GetUserThumbnail(userId);
-					StaticAudioClip leaveSound = __instance.Slot.AttachAudioClip(config.GetValue(NotificationLeaveSoundUri), true);
+					StaticAudioClip leaveSound = __instance.Slot.AttachAudioClip(config.GetValue(NotificationLeaveSoundUri));
 					__instance.AddNotification(userId, __instance.GetLocalized("Notifications.UserLeft", $"<color={LegacyUIStyle.NameTint(userId, 0.5f).ToHexString()}>"+"<b>{0}</b></color>"), sessionThumbnailUrl, config.GetValue(NotificationLeaveColor), ____settings?.UserJoinAndLeave.Value ?? NotificationType.None, username, thumbnail, leaveSound);
 				}
 				catch (Exception ex)
@@ -81,6 +81,8 @@ namespace ChangeJoinLeaveSound
 			
 			private static Uri GetUserThumbnail(string userId)
 			{
+				if (string.IsNullOrEmpty(userId)) return null;
+				
 				Contact contact = Engine.Current.Cloud.Contacts.GetContact(userId);
 				
 				return string.IsNullOrEmpty(contact?.Profile?.IconUrl)
